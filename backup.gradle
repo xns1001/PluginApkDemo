@@ -1,0 +1,48 @@
+// 反射修改aapt文件路径 start
+import java.lang.reflect.Method;
+import com.android.sdklib.BuildToolInfo;
+
+/**
+ * 修改Aapt路径
+ */
+Task modifyAaptPathTask = task('modifyAaptPath') << {
+    android.applicationVariants.all { variant ->
+        BuildToolInfo buildToolInfo = variant.androidBuilder.getTargetInfo().getBuildTools()
+        Method addMethod = BuildToolInfo.class.getDeclaredMethod("add", BuildToolInfo.PathId.class, File.class)
+        addMethod.setAccessible(true)
+        String newAaptPath = rootProject.file("dist/win/aapt.exe").absolutePath
+        addMethod.invoke(buildToolInfo, BuildToolInfo.PathId.AAPT, new File(newAaptPath))
+        println "[LOG] new aapt path = " + buildToolInfo.getPath(BuildToolInfo.PathId.AAPT)
+    }
+}
+
+/**
+ * 在preBuild task执行前修改aapt path
+ */
+preBuild.doFirst {
+    modifyAaptPathTask.execute()
+}
+
+// 反射修改aapt文件路径 end
+
+//  使用public.xml start
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        def scope = variant.getVariantData().getScope()
+        String mergeTaskName = scope.getMergeResourcesTask().name
+        def mergeTask = tasks.getByName(mergeTaskName)
+
+        mergeTask.doLast {
+            copy {
+                int i = 0
+                from(android.sourceSets.main.res.srcDirs) {
+                    include 'values/public.xml'
+                    rename 'public.xml', (i++ == 0 ? "public.xml" : "public_${i}.xml")
+                }
+
+                into(mergeTask.outputDir)
+            }
+        }
+    }
+}
+//  使用public.xml end

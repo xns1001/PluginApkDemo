@@ -1,0 +1,87 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.xns.pluginapkdemo"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs{
+        config {
+            keyAlias 'plugin_app'
+            keyPassword '123456'
+            storeFile rootProject.file('plugin_app_demo.keystore')
+            storePassword '123456'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets.main {
+        jni.srcDirs = []//disable automatic ndk-build call
+        jniLibs.srcDir "src/main/libs"
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    compile project(':lib_base')
+    compile project(':acdd')
+}
+
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        def scope = variant.getVariantData().getScope()
+        String mergeTaskName = scope.getMergeResourcesTask().name
+        def mergeTask = tasks.getByName(mergeTaskName)
+
+        mergeTask.doLast {
+            copy {
+                int i = 0
+                from(android.sourceSets.main.res.srcDirs) {
+                    include 'values/public.xml'
+                    rename 'public.xml', (i++ == 0 ? "public.xml" : "public_${i}.xml")
+                }
+
+                into(mergeTask.outputDir)
+            }
+        }
+        renameApk(variant)
+    }
+}
+
+/**
+ * 重命名apk
+ * @param variant
+ * @return
+ */
+def renameApk(variant) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+    def time=sdf.format(new Date(System.currentTimeMillis()))
+    if (variant.name == android.buildTypes.release.name) {
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            //RELEASE_版本_环境(T-测试开关打开 F-测试开关关闭).apk
+            def fileName = "host_app_release_${time}.apk"
+            output.outputFile = new File(file.parent, fileName)
+        }
+    } else if (variant.name == android.buildTypes.debug.name) {
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            //DEBUG_版本_环境(T-测试开关打开 F-测试开关关闭).apk
+            def fileName = "host_app_debug_${time}.apk"
+            output.outputFile = new File(file.parent, fileName)
+        }
+    }
+}

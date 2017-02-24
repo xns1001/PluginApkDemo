@@ -1,0 +1,16 @@
+[
+  {
+    "pkgName": "com.xns.module.a",
+    "version": "1.0",
+    "activities": [
+      "com.xns.module.a.AActivity"
+    ],
+    "services": [],
+    "receivers": [],
+    "contentProviders": [],
+    "dependency": [],
+    "md5": "7e962d0bf2f3567fe1ec65bd7d8f782f",
+    "size": 625230,
+    "hasSO": false
+  }
+]
