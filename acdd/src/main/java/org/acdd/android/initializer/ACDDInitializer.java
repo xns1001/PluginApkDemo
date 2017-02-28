@@ -44,7 +44,6 @@ import org.acdd.log.Logger;
 import org.acdd.log.LoggerFactory;
 import org.acdd.runtime.Globals;
 import org.acdd.runtime.RuntimeVariables;
-import org.acdd.util.ApkUtils;
 import org.acdd.util.ProcessUtil;
 
 import java.util.Properties;
@@ -103,10 +102,10 @@ public class ACDDInitializer {
             Globals.init(this.mApplication, ACDD.getInstance().getDelegateClassLoader());
             this.mDebug = new BundleDebug();
             if (this.mApplication.getPackageName().equals(this.mPackageName)) {
-                if (!( verifyRuntime() || !ApkUtils.isRootSystem())) {
-                    this.mProperties.put(InternalConstant.ACDD_PUBLIC_KEY, SecurityBundleListner.PUBLIC_KEY);
-                    ACDD.getInstance().addBundleListener(new SecurityBundleListner());
-                }
+//                if (!( verifyRuntime() || !ApkUtils.isRootSystem())) {
+//                    this.mProperties.put(InternalConstant.ACDD_PUBLIC_KEY, SecurityBundleListner.PUBLIC_KEY);
+//                    ACDD.getInstance().addBundleListener(new SecurityBundleListner());
+//                }
 
                 if (this.isUpdate || this.mDebug.isDebugable()) {
                     this.mProperties.put("osgi.init", "true");

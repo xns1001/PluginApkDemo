@@ -40,13 +40,6 @@ android {
 
 dependencies {
     provided fileTree(include: ['*.jar'], dir: 'libs')
-    //    provided files('libs/support-compat-25.1.1.jar')
-    //    provided files('libs/support-core-ui-25.1.1.jar')
-    //    provided files('libs/support-core-utils-25.1.1.jar')
-    //    provided files('libs/support-fragment-25.1.1.jar')
-    //    provided files('libs/support-media-compat-25.1.1.jar')
-    //    provided files('libs/support-v4-25.1.1.jar')
-    //    provided files('libs/lib_base.jar')
 }
 
 

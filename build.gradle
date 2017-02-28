@@ -26,7 +26,26 @@ ext {
     SUPPORT_VERSION = "25.1.1"
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    sdkDir =properties.getProperty('sdk.dir')
-    ndkDir =properties.getProperty('ndk.dir')
+    sdkDir = properties.getProperty('sdk.dir')
+    ndkDir = properties.getProperty('ndk.dir')
 
 }
+
+//keyAlias 'plugin_app'
+//keyPassword '123456'
+//storeFile rootProject.file('plugin_app_demo.keystore')
+//storePassword '123456'
+
+//task printKey << {
+//
+//    def keyFile = rootProject.file("plugin_app_demo.keystore")
+//    def stream = new FileInputStream(keyFile)
+//    def ks = KeyStore.getInstance("JKS")
+//    ks.load(stream, "123456".toCharArray())
+//    stream.close()
+//
+//    def certificate = ks.getCertificate("plugin_app")
+//    def publicKey = certificate.getPublicKey()
+//    println("publickek=${publicKey}")
+//
+//}

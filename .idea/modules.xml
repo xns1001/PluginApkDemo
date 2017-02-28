@@ -5,8 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/PluginApkDemo.iml" filepath="$PROJECT_DIR$/PluginApkDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/acdd/acdd.iml" filepath="$PROJECT_DIR$/acdd/acdd.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bundle/bundle.iml" filepath="$PROJECT_DIR$/bundle/bundle.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_base/lib_base.iml" filepath="$PROJECT_DIR$/lib_base/lib_base.iml" />
-      <module fileurl="file://$PROJECT_DIR$/moduleA/modulea.iml" filepath="$PROJECT_DIR$/moduleA/modulea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moduleA/moduleA.iml" filepath="$PROJECT_DIR$/moduleA/moduleA.iml" />
     </modules>
   </component>
 </project>
